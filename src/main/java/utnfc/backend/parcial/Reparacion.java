@@ -13,25 +13,18 @@ public class Reparacion {
     private final boolean garantia;
     private final double repuestos;
 
-    // constructor igual q antes pero se define x defecto false y 0.0
+    // Se delega al constructor completo this(...) para aplicar todas las validaciones
+    // prioridad entre 1 y 3, horas > 0, costoBase >= 0 y campos obligatorios,
+    // constructor viejo con atributos nuevos con datos default
     public Reparacion(String id, String cliente, String dispositivo, String marca,
             int prioridad, int horas, String estado, double costoBase) {
-        this.id = id.strip();
-        this.cliente = cliente.strip();
-        this.dispositivo = dispositivo.strip();
-        this.marca = marca.strip();
-        this.prioridad = prioridad;
-        this.horas = horas;
-        this.estado = estado.strip();
-        this.costoBase = costoBase;
-        this.garantia = false;
-        this.repuestos = 0.0;
+        this(id, cliente, dispositivo, marca, prioridad, horas, estado, costoBase, false, 0.0);
     }
 
     // constructor nuevo con todos los parametros
     public Reparacion(String id, String cliente, String dispositivo, String marca,
                       int prioridad, int horas, String estado, double costoBase, boolean garantia, double repuestos) {
-        // VALIDACIONES:
+
         // verificar si es null o vacio
         if (id == null || id.isBlank()
                 || cliente == null || cliente.isBlank()
@@ -68,9 +61,9 @@ public class Reparacion {
     }
 
     public static Reparacion desdeCampos(String[] campos) {
-        // debe aceptar solo 8 u 11 columnas (se agrega 10 xq un temita del test
-        // del parcial no se si esta mal o q, pero es para q corra y funcione)
-        if (campos.length != 8 && campos.length != 10 && campos.length != 11) {
+
+        // verifica solo si hay 8 o 11 columnas.
+        if (campos.length != 8 && campos.length != 11) {
             throw new IllegalArgumentException("columnas incorrectas");
         }
         // Convertir y agregar a q campos pertenecen
